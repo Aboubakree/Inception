@@ -1,4 +1,4 @@
-# Docker installation
+# Docker installation 
 
 Step 1: Update System 
 
@@ -36,3 +36,5 @@ Step 8: Optional Run Docker as Non-Root User
 
 - sudo usermod -aG docker $USER
 - newgrp docker
+
+### /var/lib/docker/
