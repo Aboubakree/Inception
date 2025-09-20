@@ -1,28 +1,15 @@
 FROM debian:bullseye
 
+RUN apt-get update && apt-get install -y nginx openssl
+
 EXPOSE 443
 
-RUN apt update && apt install -y --no-install-recommends --no-install-suggests \
-    ngnix \
-    openssl && \
-    rm -rf  /var/lib/apt/lists/*
+COPY ./conf/default/ /etc/nginx/sites-enabled/default
+COPY ./tools/nginx_start.sh /var/www
 
-ARG cert_folder certificate key country state locality organisation unit common_name
+RUN chmod +x /var/www/nginx_start.sh
 
-RUN mkdir -p ${cert_folder} && \
-    openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-    -out ${certificate} \
-    -keyout ${key} \
-    -subj "/C=${country}/ST=${state}/L=${locality}/O=${organisation}/OU=${unit}/CN=${common_name}"
+ENTRYPOINT ["/var/www/nginx_start.sh"]
 
-COPY conf/default.conf /etc/nginx/conf.d/
+CMD ["nginx", "-g", "daemon off;"]
 
-RUN        echo "\tserver name ${common_name};\n\
-            \tssl_certificate ${certificate};\n\
-            \tssl_certificate_key ${key};\n\
-            }" >> /etc/nginx/conf.d/default.conf
-
-RUN        mkdir -p /var/www/html
-RUN        chown -R www-data:www-data /var/www/html
-
-CMD        ["nginx", "-g", "daemon off;"]
