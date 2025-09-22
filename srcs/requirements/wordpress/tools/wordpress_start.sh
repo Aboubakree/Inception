@@ -18,7 +18,7 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 	# Wait for MariaDB with timeout
     echo "Waiting for MariaDB..."
 	timeout=30
-	while ! mysql -hmariadb -u${MARIADB_USER} -p${MARIADB_PASSWORD} ${MARIADB_DATABASE} -e "SELECT 1;" &>/dev/null; do
+	while ! mysql -hmariadb -u${MARIADB_USER} -p"$(cat /run/secrets/mariadb_password)" ${MARIADB_DATABASE} -e "SELECT 1;" &>/dev/null; do
 		sleep 2
 		timeout=$((timeout - 2))
 		if [ $timeout -le 0 ]; then

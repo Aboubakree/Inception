@@ -29,7 +29,7 @@ services:
       - app-network
     env_file:
       - .env
-    restart: on-failure
+    restart: always 
 
   wordpress:
     build: ./requirements/wordpress
@@ -42,7 +42,9 @@ services:
       - app-network
     env_file:
       - .env
-    restart: on-failure
+    restart: always
+    secrets :
+      - mariadb_password
 
   nginx:
     container_name: nginx
@@ -55,4 +57,7 @@ services:
       - wp:/var/www/html
     networks:
       - app-network
-    restart: on-failure
+    restart: always
+secrets:
+  mariadb_password :
+    file : ../secrets/mariadb_password.txt
