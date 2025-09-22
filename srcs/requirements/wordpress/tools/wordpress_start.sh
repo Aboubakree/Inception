@@ -15,7 +15,6 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 	cd /var/www/html;
 	wp core download --allow-root;
 	mv /var/www/wp-config.php /var/www/html/
-    # Wait for MariaDB
 	# Wait for MariaDB with timeout
     echo "Waiting for MariaDB..."
 	timeout=30
