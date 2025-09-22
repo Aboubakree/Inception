@@ -28,8 +28,8 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 	done
 	echo "MariaDB is up!"
 	echo "Wordpress: creating users..."
-	wp core install --allow-root --url=${WP_URL} --title=${WP_TITLE} --admin_user=${WP_ADMIN_LOGIN} --admin_password=${WP_ADMIN_PASSWORD} --admin_email=${WP_ADMIN_EMAIL}
-	wp user create --allow-root ${WP_USER_LOGIN} ${WP_USER_EMAIL} --user_pass=${WP_USER_PASSWORD};
+	wp core install --allow-root --url=${WP_URL} --title=${WP_TITLE} --admin_user=${WP_ADMIN_LOGIN} --admin_password="$(cat /run/secrets/wp_admin_password)" --admin_email=${WP_ADMIN_EMAIL}
+	wp user create --allow-root ${WP_USER_LOGIN} ${WP_USER_EMAIL} --user_pass="$(cat /run/secrets/wp_user_password)";
 	echo "Wordpress: set up!"
 fi
 
