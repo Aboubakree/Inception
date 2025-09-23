@@ -6,7 +6,7 @@ define( 'DB_NAME', getenv('MARIADB_DATABASE') );
 define( 'DB_USER', getenv('MARIADB_USER') );
 
 /** Database password */
-define( 'DB_PASSWORD', getenv('MARIADB_PASSWORD') );
+define( 'DB_PASSWORD', file_get_contents('/run/secrets/mariadb_password'));
 
 /** Database hostname */
 define( 'DB_HOST', getenv('MARIADB_HOST') );

@@ -1,16 +1,16 @@
-
+DOCKER = docker compose
 
 all:
 	@mkdir -p $(HOME)/data/wordpress
 	@mkdir -p $(HOME)/data/mariadb
-	@docker-compose -f srcs/docker-compose.yml up
+	@$(DOCKER) -f srcs/docker-compose.yml up
 
 clean:
 	@docker stop $$(docker ps -qa)
-	@docker-compose -f srcs/docker-compose.yml down
+	@$(DOCKER) -f srcs/docker-compose.yml down
 
 fclean :
-	@docker-compose -f srcs/docker-compose.yml down
+	@$(DOCKER) -f srcs/docker-compose.yml down
 	@sudo rm -rf $(HOME)/data/wordpress
 	@sudo rm -rf $(HOME)/data/mariadb
 	@docker rmi -f $$(docker images -qa)
